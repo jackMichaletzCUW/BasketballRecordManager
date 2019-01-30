@@ -45,7 +45,7 @@ public class AddPlayerActivity extends AppCompatActivity
         );
 
         // Create a notification that lets the user know that the player was successfully added
-        Toast.makeText(this, String.format("%s Added to the Team.", nameET.getText().toString()), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, String.format("%s Added to the Team", nameET.getText().toString()), Toast.LENGTH_SHORT).show();
 
         // Zero out the text fields in case the user wants to add another player
         nameET.setText("");
