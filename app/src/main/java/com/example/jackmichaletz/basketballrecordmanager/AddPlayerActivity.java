@@ -8,12 +8,14 @@ import android.widget.Toast;
 
 public class AddPlayerActivity extends AppCompatActivity
 {
-
     private EditText nameET;
     private EditText jerseyNumET;
     private EditText ageET;
     private EditText heightFootET;
     private EditText heightInchET;
+
+    private final int GOOD_COLOR = 0xFFFFFFFF; // white
+    private final int BAD_COLOR = 0xFFFF6969; // pastel red
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -31,27 +33,132 @@ public class AddPlayerActivity extends AppCompatActivity
         ageET.setHint(String.format("Age: %d+", BasketballPlayer.MIN_AGE));
     }
 
+    private void clearBGColors()
+    {
+        nameET.setBackgroundColor(GOOD_COLOR);
+        jerseyNumET.setBackgroundColor(GOOD_COLOR);
+        ageET.setBackgroundColor(GOOD_COLOR);
+        heightFootET.setBackgroundColor(GOOD_COLOR);
+        heightInchET.setBackgroundColor(GOOD_COLOR);
+    }
+
     public void onAddButtonPressed(View v)
     {
-        // Add the player
-        BasketballTeam.addPlayer(
-          new BasketballPlayer(
-              nameET.getText().toString(),
-              Integer.parseInt(jerseyNumET.getText().toString()),
-              Integer.parseInt(ageET.getText().toString()),
-              Integer.parseInt(heightFootET.getText().toString()),
-              Integer.parseInt(heightInchET.getText().toString())
-          )
-        );
+        this.clearBGColors();
 
-        // Create a notification that lets the user know that the player was successfully added
-        Toast.makeText(this, String.format("%s Added to the Team", nameET.getText().toString()), Toast.LENGTH_SHORT).show();
+        String toastText = "";
 
-        // Zero out the text fields in case the user wants to add another player
-        nameET.setText("");
-        jerseyNumET.setText("");
-        ageET.setText("");
-        heightFootET.setText("");
-        heightInchET.setText("");
+        String nameInput = nameET.getText().toString();
+
+        int jerseyNumInput;
+        int ageInput;
+        int heightFootInput;
+        int heightInchInput;
+
+        // Avoid an exception when parsing the integers
+        if(!jerseyNumET.getText().toString().isEmpty())
+        {
+            jerseyNumInput = Integer.parseInt(jerseyNumET.getText().toString());
+        }
+        else
+        {
+            jerseyNumInput = -1;
+        }
+
+        if(!ageET.getText().toString().isEmpty())
+        {
+            ageInput = Integer.parseInt(ageET.getText().toString());
+        }
+        else
+        {
+            ageInput = -1;
+        }
+
+        if(!heightFootET.getText().toString().isEmpty())
+        {
+            heightFootInput = Integer.parseInt(heightFootET.getText().toString());
+        }
+        else
+        {
+            heightFootInput = -1;
+        }
+
+        if(!heightInchET.getText().toString().isEmpty())
+        {
+            heightInchInput = Integer.parseInt(heightInchET.getText().toString());
+        }
+        else
+        {
+            heightInchInput = -1;
+        }
+
+        boolean fullyValid = true;
+
+        if(nameInput == null || !BasketballPlayer.isNameValid(nameInput))
+        {
+            nameET.setBackgroundColor(BAD_COLOR);
+            nameET.setText("");
+            fullyValid = false;
+        }
+
+        if(!BasketballPlayer.isJerseyNumberValid(jerseyNumInput))
+        {
+            jerseyNumET.setBackgroundColor(BAD_COLOR);
+            jerseyNumET.setText("");
+            fullyValid = false;
+        }
+
+        if(!BasketballPlayer.isAgeValid(ageInput))
+        {
+            ageET.setBackgroundColor(BAD_COLOR);
+            ageET.setText("");
+            fullyValid = false;
+        }
+
+        if(!BasketballPlayer.isHeightFeetValid(heightFootInput))
+        {
+            heightFootET.setBackgroundColor(BAD_COLOR);
+            heightFootET.setText("");
+            fullyValid = false;
+        }
+
+        if(!BasketballPlayer.isHeightInchesValid(heightInchInput))
+        {
+            heightInchET.setBackgroundColor(BAD_COLOR);
+            heightInchET.setText("");
+            fullyValid = false;
+        }
+
+        if(fullyValid)
+        {
+            // Add the player
+            BasketballTeam.addPlayer(
+                    new BasketballPlayer(
+                        nameInput,
+                        jerseyNumInput,
+                        ageInput,
+                        heightFootInput,
+                        heightInchInput
+                    )
+            );
+
+            this.clearBGColors();
+
+            // Zero out the text fields in case the user wants to add another player
+            nameET.setText("");
+            jerseyNumET.setText("");
+            ageET.setText("");
+            heightFootET.setText("");
+            heightInchET.setText("");
+
+            toastText = String.format("%s Added to the Team", nameInput);
+        }
+        else
+        {
+            toastText = "Invalid Input. Please try again.";
+        }
+
+        // Create a notification that lets the user know if the player was successfully added
+        Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show();
     }
 }

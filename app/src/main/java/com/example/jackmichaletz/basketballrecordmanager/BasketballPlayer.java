@@ -27,9 +27,69 @@ public class BasketballPlayer
     }
 
     // I tried to create reasonable controls on the data
+    public static boolean isNameValid(String name)
+    {
+        if(!name.isEmpty() )
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public static boolean isJerseyNumberValid(int jerseyNumber)
+    {
+        if(jerseyNumber >= MIN_JERSEY_NUM && jerseyNumber <= MAX_JERSEY_NUM)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public static boolean isAgeValid(int age)
+    {
+        if(age >= MIN_AGE)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public static boolean isHeightFeetValid(int heightFeet)
+    {
+        if(heightFeet > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public static boolean isHeightInchesValid(int heightInches)
+    {
+        if(heightInches >= 0 && heightInches <= 12)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public void setJerseyNumber(int jerseyNumber)
     {
-        if (jerseyNumber >= MIN_JERSEY_NUM && jerseyNumber <= MAX_JERSEY_NUM)
+        if(isJerseyNumberValid(jerseyNumber))
         {
             this.jerseyNumber = jerseyNumber;
         }
@@ -37,7 +97,7 @@ public class BasketballPlayer
 
     public void setHeightFeet(int heightFeet)
     {
-        if (heightFeet > 0)
+        if(isHeightFeetValid(heightFeet))
         {
             this.heightFeet = heightFeet;
         }
@@ -45,7 +105,7 @@ public class BasketballPlayer
 
     public void setHeightInches(int heightInches)
     {
-        if (heightInches >= 0 && heightInches <= 12)
+        if(isHeightInchesValid(heightInches))
         {
             this.heightInches = heightInches;
         }
@@ -53,7 +113,7 @@ public class BasketballPlayer
 
     public void setAge(int age)
     {
-        if (age >= MIN_AGE)
+        if(isAgeValid(age))
         {
             this.age = age;
         }
@@ -61,7 +121,7 @@ public class BasketballPlayer
 
     public void setName(String name)
     {
-        if( !name.isEmpty() )
+        if(isNameValid(name))
         {
             this.name = name;
         }
