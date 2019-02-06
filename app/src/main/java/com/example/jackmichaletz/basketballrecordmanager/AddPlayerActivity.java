@@ -134,11 +134,11 @@ public class AddPlayerActivity extends AppCompatActivity
             // Add the player
             BasketballTeam.addPlayer(
                     new BasketballPlayer(
-                        nameInput,
-                        jerseyNumInput,
-                        ageInput,
-                        heightFootInput,
-                        heightInchInput
+                            nameInput,
+                            jerseyNumInput,
+                            ageInput,
+                            heightFootInput,
+                            heightInchInput
                     )
             );
 
@@ -152,6 +152,9 @@ public class AddPlayerActivity extends AppCompatActivity
             heightInchET.setText("");
 
             toastText = String.format("%s Added to the Team", nameInput);
+
+            // Go back to the previous screen
+            this.finish();
         }
         else
         {

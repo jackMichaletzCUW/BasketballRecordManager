@@ -4,14 +4,14 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity
 {
-    private LinearLayout scrollerVLL;
-    private final String PLACEHOLDER_STR = "No Players in Roster...";
-    private boolean showingPlaceholder = false;
+    private ListView teamListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -22,43 +22,25 @@ public class MainActivity extends AppCompatActivity
         // Call this to initialize the arraylist that stores the players
         BasketballTeam.init();
 
-        // This is what the list of players will be kept in
-        scrollerVLL = (LinearLayout)this.findViewById(R.id.scrollerVLL);
+        // Fill the scroll view with data
+        // -> Create an array adapter to hold the data.
+        ArrayAdapter<String> aa = new ArrayAdapter<String>(this, R.layout.list_view_row, BasketballTeam.getTeamStrings());
+
+        // -> This is what the list of players will be kept in.
+        teamListView = (ListView) this.findViewById(R.id.teamListView);
+
+        teamListView.setAdapter(aa);
+
+        teamListView.invalidateViews();
     }
 
     @Override
-    protected void onStart()
+    protected void onResume()
     {
-        super.onStart();
+        super.onResume();
 
-        // Fill the scroll view with data
-        if(!BasketballTeam.isEmpty())
-        {
-            // Remove the "no players in roster" message if there are actually players in the roster
-            if(showingPlaceholder)
-            {
-                scrollerVLL.removeViewAt(0);
-                showingPlaceholder = false;
-            }
-
-            // This adds players that aren't already on the list to the list
-            for(int pc = scrollerVLL.getChildCount(); pc < BasketballTeam.getSize(); pc++)
-            {
-                TextView playerText = new TextView(this);
-                playerText.setText(BasketballTeam.getPlayer(pc).getSummaryString());
-
-                scrollerVLL.addView(playerText);
-            }
-        }
-        else if(scrollerVLL.getChildCount() == 0)
-        {
-            // Add the "no players in roster" placeholder message to the scrollview
-            TextView placeholderText = new TextView(this);
-            placeholderText.setText(PLACEHOLDER_STR);
-            scrollerVLL.addView(placeholderText);
-
-            showingPlaceholder = true;
-        }
+        BasketballTeam.updateTeamStrings();
+        teamListView.invalidateViews();
     }
 
     public void onAddButtonClick(View v)
