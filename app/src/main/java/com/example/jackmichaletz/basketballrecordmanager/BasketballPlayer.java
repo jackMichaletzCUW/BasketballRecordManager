@@ -21,9 +21,32 @@ public class BasketballPlayer
         this.heightInches = heightInches;
     }
 
-    public String getSummaryString()
+    // Get string representations of the player. toString is an overall representation, but the
+    // -> following methods get it out in chunks for the player list
+    @Override
+    public String toString()
     {
         return String.format("#%d %s: %d years old, %d'%d\" tall", this.jerseyNumber, this.name, this.age, this.heightFeet, this.heightInches);
+    }
+
+    public String getJerseyNumberString()
+    {
+        return String.format("#%d:", this.jerseyNumber);
+    }
+
+    public String getNameString()
+    {
+        return String.format("%s", this.name);
+    }
+
+    public String getAgeString()
+    {
+        return String.format("%d Years Old", this.age);
+    }
+
+    public String getHeightString()
+    {
+        return String.format("%d\'%d\" Tall", this.heightFeet, this.heightInches);
     }
 
     // I tried to create reasonable controls on the data
@@ -50,6 +73,8 @@ public class BasketballPlayer
             return false;
         }
     }
+
+
 
     public static boolean isAgeValid(int age)
     {

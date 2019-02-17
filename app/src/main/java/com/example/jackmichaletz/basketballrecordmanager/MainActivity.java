@@ -19,12 +19,9 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Call this to initialize the arraylist that stores the players
-        BasketballTeam.init();
-
         // Fill the scroll view with data
         // -> Create an array adapter to hold the data.
-        ArrayAdapter<String> aa = new ArrayAdapter<String>(this, R.layout.list_view_row, BasketballTeam.getTeamStrings());
+        PlayerArrayAdapter aa = new PlayerArrayAdapter(this, R.layout.list_view_row_advanced, BasketballTeam.getPlayers());
 
         // -> This is what the list of players will be kept in.
         teamListView = (ListView) this.findViewById(R.id.teamListView);
@@ -39,7 +36,6 @@ public class MainActivity extends AppCompatActivity
     {
         super.onResume();
 
-        BasketballTeam.updateTeamStrings();
         teamListView.invalidateViews();
     }
 
