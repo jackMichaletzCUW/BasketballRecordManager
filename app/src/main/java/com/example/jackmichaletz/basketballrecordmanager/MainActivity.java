@@ -9,15 +9,25 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.FirebaseApp;
+
 public class MainActivity extends AppCompatActivity
 {
     private ListView teamListView;
+
+    // This is the name of the table in the DB that the program will write
+    // -> the players out to
+    private final String TABLE_NAME = "PLAYERS";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Initialize the database
+        FirebaseApp.initializeApp(this);
+        BasketballTeam.initializeDB(TABLE_NAME);
 
         // Fill the scroll view with data
         // -> Create an array adapter to hold the data.
@@ -29,6 +39,9 @@ public class MainActivity extends AppCompatActivity
         teamListView.setAdapter(aa);
 
         teamListView.invalidateViews();
+
+        // Add a logger for the DB that will output to the console if the DB is changed
+        BasketballTeam.listenForChangesToDatabase();
     }
 
     @Override
