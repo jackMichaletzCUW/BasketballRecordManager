@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity
 
         teamListView.setAdapter(aa);
 
+        BasketballTeam.assignArrayAdapter(aa);
+
         teamListView.invalidateViews();
 
         // Add a logger for the DB that will output to the console if the DB is changed

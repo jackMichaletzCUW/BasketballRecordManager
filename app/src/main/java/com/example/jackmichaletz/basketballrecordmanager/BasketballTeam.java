@@ -23,13 +23,23 @@ public class BasketballTeam
     private static FirebaseDatabase database;
     private static DatabaseReference dbRef;
 
-    public static void addPlayer(BasketballPlayer b)
+    private static PlayerArrayAdapter paa;
+
+    public static void addPlayer(BasketballPlayer b, boolean addToDB)
     {
         team[currentNumberOfPlayers] = b;
         currentNumberOfPlayers++;
 
-        // Put the player out onto the team database so it can be accessed later
-        BasketballTeam.writePlayerToFirebase(b);
+        if(addToDB)
+        {
+            // Put the player out onto the team database so it can be accessed later
+            BasketballTeam.writePlayerToFirebase(b);
+        }
+    }
+
+    public static void assignArrayAdapter(PlayerArrayAdapter paa)
+    {
+        BasketballTeam.paa = paa;
     }
 
     // Initializes the database to write players to the table name that was passed in
@@ -47,13 +57,20 @@ public class BasketballTeam
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
             {
-                System.out.println(dataSnapshot.toString());
+                //System.out.println(dataSnapshot.toString());
+
+                // Clear out the current local list of players and rebuild it from what is in the DB
+                BasketballTeam.clear();
 
                 for(DataSnapshot ds : dataSnapshot.getChildren())
                 {
-                    BasketballPlayer playerInQuestion = ds.getValue(BasketballPlayer.class);
-                    System.out.printf("DATA CHANGED:\n\t%s\n", playerInQuestion.toString());
+                    BasketballPlayer loadedPlayer = ds.getValue(BasketballPlayer.class);
+
+                    BasketballTeam.addPlayer(loadedPlayer, false);
+                    //System.out.printf("DATA CHANGED:\n\t%s\n", loadedPlayer.toString());
                 }
+
+                paa.notifyDataSetChanged();
             }
 
             @Override
@@ -82,6 +99,17 @@ public class BasketballTeam
     public static void writePlayerToFirebase(BasketballPlayer p)
     {
         dbRef.push().setValue(p);
+    }
+
+    // Clears out the team, starting it from scratch (locally - does not affect DB)
+    public static void clear()
+    {
+        for(int pc = 0; pc < currentNumberOfPlayers; pc++)
+        {
+            team[pc] = null;
+        }
+
+        currentNumberOfPlayers = 0;
     }
 
     public static int getSize()

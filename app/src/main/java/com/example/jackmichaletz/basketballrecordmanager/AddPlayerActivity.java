@@ -133,13 +133,14 @@ public class AddPlayerActivity extends AppCompatActivity
         {
             // Add the player
             BasketballTeam.addPlayer(
-                    new BasketballPlayer(
-                            nameInput,
-                            jerseyNumInput,
-                            ageInput,
-                            heightFootInput,
-                            heightInchInput
-                    )
+                new BasketballPlayer(
+                        nameInput,
+                        jerseyNumInput,
+                        ageInput,
+                        heightFootInput,
+                        heightInchInput
+                ),
+                true
             );
 
             this.clearBGColors();
