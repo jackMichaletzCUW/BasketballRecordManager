@@ -25,6 +25,14 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Test the linked list implementation
+        int[] testData = {1,2,3,4,5};
+
+        System.out.print("*****ADD TO FRONT: ");
+        this.testLinkedList(testData, true);
+        System.out.print("*****ADD TO END: ");
+        this.testLinkedList(testData, false);
+
         // Initialize the database
         FirebaseApp.initializeApp(this);
         BasketballTeam.initializeDB(TABLE_NAME);
@@ -44,6 +52,25 @@ public class MainActivity extends AppCompatActivity
 
         // Add a logger for the DB that will output to the console if the DB is changed
         BasketballTeam.listenForChangesToDatabase();
+    }
+
+    private void testLinkedList(int[] testData, boolean addFront)
+    {
+        LinkedList testLL = new LinkedList();
+
+        for(int pc = 0; pc < testData.length; pc++)
+        {
+            if(addFront)
+            {
+                testLL.addFront(new Node(testData[pc]));
+            }
+            else // addEnd
+            {
+                testLL.addEnd(new Node(testData[pc]));
+            }
+        }
+
+        testLL.displayToScreen();
     }
 
     @Override
