@@ -26,12 +26,52 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         // Test the linked list implementation
-        int[] testData = {1,2,3,4,5};
+        int[] argsInt = {1,2,3,4,5,6,7,8,9};
 
-        System.out.print("*****ADD TO FRONT: ");
-        this.testLinkedList(testData, true);
-        System.out.print("*****ADD TO END: ");
-        this.testLinkedList(testData, false);
+        LinkedList list = new LinkedList();
+
+        for(int ac = 0; ac < argsInt.length; ac++)
+        {
+            list.addEnd(argsInt[ac]);
+        }
+
+        System.out.printf("\n****BEGIN TEST****\nLINKED LIST:\n\t%s\n", list.toString());
+
+        list.addFront(22);
+
+        System.out.printf("ADD 22 TO FRONT:\n\t%s\n", list.toString());
+
+        list.addFront(43);
+
+        System.out.printf("ADD 43 TO FRONT:\n\t%s\n", list.toString());
+
+        list.addEnd(67);
+
+        System.out.printf("ADD 67 TO END:\n\t%s\n", list.toString());
+
+        System.out.printf("REMOVE %d FROM INDEX %d:", list.getValueAtIndex(0), 0);
+
+        list.removeAtIndex(0);
+
+        System.out.printf("\n\t%s\n", list.toString());
+
+        System.out.printf("REMOVE %d FROM INDEX %d:", list.getValueAtIndex(list.getSize() - 1), list.getSize() - 1);
+
+        list.removeAtIndex(list.getSize() - 1);
+
+        System.out.printf("\n\t%s\n", list.toString());
+
+        System.out.printf("REMOVE %d FROM INDEX %d:", list.getValueAtIndex(1), 1);
+
+        list.removeAtIndex(1);
+
+        System.out.printf("\n\t%s\n", list.toString());
+
+        list.addAtIndex(73, 1);
+
+        System.out.printf("ADD %d TO LIST AT INDEX %d:\n\t%s\n", 73, 1, list.toString());
+
+        System.out.printf("****END TEST****\n\n");
 
         // Initialize the database
         FirebaseApp.initializeApp(this);
@@ -52,25 +92,6 @@ public class MainActivity extends AppCompatActivity
 
         // Add a logger for the DB that will output to the console if the DB is changed
         BasketballTeam.listenForChangesToDatabase();
-    }
-
-    private void testLinkedList(int[] testData, boolean addFront)
-    {
-        LinkedList testLL = new LinkedList();
-
-        for(int pc = 0; pc < testData.length; pc++)
-        {
-            if(addFront)
-            {
-                testLL.addFront(new Node(testData[pc]));
-            }
-            else // addEnd
-            {
-                testLL.addEnd(new Node(testData[pc]));
-            }
-        }
-
-        testLL.displayToScreen();
     }
 
     @Override
